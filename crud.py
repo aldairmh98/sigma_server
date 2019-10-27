@@ -22,7 +22,7 @@ def getVitalDataUser(id):
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM vitaldata WHERE id = %s", [id])
     record = cursor.fetchone()
-    for rec in record:
+    for r in record:
         return {"id":r[0],"curp":r[1], "name":r[2], "allergics":r[3], "sicknessess":r[4], "blood_type":r[5], "n_afiliacion":r[6], "institucion":r[7]}
 
 def createIncident(incident, user_id):
