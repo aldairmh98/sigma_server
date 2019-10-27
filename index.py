@@ -3,9 +3,10 @@ from flask import request
 import os
 from pyfcm import FCMNotification
 import crud
-
-
+from flask_cors import CORS
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/")
 def index():
@@ -20,7 +21,9 @@ def vitalData():
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     elif request.method == "GET":
-        return jsonify(crud.getVitalData())
+        response = jsonify(crud.getVitalData())
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
 @app.route('/vitalData/id/<id>', methods=["GET"])
 def vitalDataId(id):
