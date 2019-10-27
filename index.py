@@ -25,7 +25,13 @@ def vitalData():
 @app.route('/vitalData/id/<id>', methods=["GET"])
 def vitalDataId(id):
     id_ = request.view_args['id']
+    print(id_)
     response = jsonify(crud.getVitalDataUser(id_))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+@app.route('/incidents', methods = ["GET"])
+def incidentsList():
+    response = jsonify(crud.getIncidents())
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
@@ -35,13 +41,12 @@ def incidents(user_id):
     #AIzaSyBzu6jeeyGabLpGPj7KutBzR-BmXwsMcrc
     #Expected Input = {USER_ID, LOCATION{latitude, longitude}}
     id = request.view_args['user_id']
-    print(id)
+    
     crud.createIncident(request.json, id )
-    print(request.json)
     push_service = FCMNotification(api_key="AIzaSyBzu6jeeyGabLpGPj7KutBzR-BmXwsMcrc")
-    result = push_service.notify_topic_subscribers(topic_name="covadonga", message_body='hetmm')
+    result = push_service.notify_topic_subscribers(topic_name="covadonga", message_body='Alerta!')
     response = jsonify({'prueba':'pruebita'})
+    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
