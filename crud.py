@@ -11,14 +11,19 @@ def getVitalData():
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM vitaldata")
     record = cursor.fetchall()
-    return record
+    fullData = []
+    
+    for r in record:
+        fullData.append({"id":r[0],"curp":r[1], "name":r[2], "allergics":r[3], "sicknessess":r[4], "blood_type":r[5], "n_afiliacion":r[6], "institucion":r[7]})
+    return fullData
 
 def getVitalDataUser(id):
     connection = Connection().connection
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM vitaldata WHERE curp = %s", [id])
+    cursor.execute("SELECT * FROM vitaldata WHERE id = %s", [id])
     record = cursor.fetchone()
-    return record
+    for rec in record:
+        return {"id":r[0],"curp":r[1], "name":r[2], "allergics":r[3], "sicknessess":r[4], "blood_type":r[5], "n_afiliacion":r[6], "institucion":r[7]}
 
 def createIncident(incident, user_id):
     connection = Connection()
@@ -35,4 +40,7 @@ def getIncidents():
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM incidents WHERE status = 0")
     data = cursor.fetchall()
-    return data
+    records = []
+    for r in data:
+        records.append({"id":r[0],"latitud":r[1], "longitud":r[2], "status":r[3], "user_id":r[4]})
+    return records
