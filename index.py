@@ -35,11 +35,13 @@ def incidents(user_id):
     #AIzaSyBzu6jeeyGabLpGPj7KutBzR-BmXwsMcrc
     #Expected Input = {USER_ID, LOCATION{latitude, longitude}}
     id = request.view_args['user_id']
+    print(id)
     crud.createIncident(request.json, id )
+    print(request.json)
     push_service = FCMNotification(api_key="AIzaSyBzu6jeeyGabLpGPj7KutBzR-BmXwsMcrc")
     result = push_service.notify_topic_subscribers(topic_name="covadonga", message_body='hetmm')
-    response = jsonify()
-    return "HEY"
+    response = jsonify({'prueba':'pruebita'})
+    return response
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
